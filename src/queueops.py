@@ -11,7 +11,9 @@ def take_next(queue: List[str]) -> Tuple[str | None, List[str]]:
 
     If queue is empty, return (None, []).
     """
-    raise NotImplementedError
+    if not queue:
+        return None, []
+    return queue[0], queue[1:]
 
 
 def move_to_back(queue: List[str], name: str) -> List[str]:
@@ -19,7 +21,12 @@ def move_to_back(queue: List[str], name: str) -> List[str]:
 
     If `name` is not present, return the queue unchanged (new list).
     """
-    raise NotImplementedError
+    new_queue = queue.copy()
+    try:
+        new_queue.append(new_queue.pop(new_queue.index(name)))
+    except ValueError:
+        pass  # name not in queue, leave as is
+    return new_queue
 
 
 def interleave(q1: List[str], q2: List[str]) -> List[str]:
@@ -27,4 +34,11 @@ def interleave(q1: List[str], q2: List[str]) -> List[str]:
 
     After the shorter queue runs out, append the rest.
     """
-    raise NotImplementedError
+    result = []
+    len1, len2 = len(q1), len(q2)
+    for i in range(max(len1, len2)):
+        if i < len1:
+            result.append(q1[i])
+        if i < len2:
+            result.append(q2[i])
+    return result
